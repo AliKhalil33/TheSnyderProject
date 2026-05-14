@@ -11,14 +11,17 @@
   <style>
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 
+    html, body { overflow-x:hidden; overscroll-behavior-x:none; }
+
     body {
       background:#fff; color:#000;
       font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       min-height:100vh;
       padding:env(safe-area-inset-top) 18px env(safe-area-inset-bottom) 18px;
       display:flex; justify-content:center;
+      width:100%;
     }
-    .app { width:100%; max-width:460px; padding-bottom:70px; }
+    .app { width:100%; max-width:460px; padding-bottom:70px; overflow-x:hidden; }
 
     /* Title */
     .title { text-align:center; margin-top:24px; margin-bottom:28px; }
@@ -68,7 +71,7 @@
 
     /* Workout list */
     .workout-list { display:flex; flex-direction:column; gap:12px; position:relative; }
-    .exercise-row { display:flex; align-items:stretch; gap:8px; transition:opacity 0.15s ease; touch-action:none; }
+    .exercise-row { display:flex; align-items:stretch; gap:8px; transition:opacity 0.15s ease; touch-action:pan-y; }
     .exercise-row.dragging { opacity:0.3; }
 
     .drop-indicator { height:3px; background:#000; border-radius:2px; margin:-6px 0; display:none; position:relative; z-index:10; }
@@ -79,7 +82,7 @@
     .drag-handle {
       display:flex; align-items:center; justify-content:center;
       width:0; flex-shrink:0; cursor:grab; opacity:0;
-      touch-action:none; overflow:hidden;
+      touch-action:pan-y; overflow:hidden;
       transition:width 0.2s ease, opacity 0.2s ease;
       -webkit-user-select:none; user-select:none; pointer-events:none;
     }
@@ -295,12 +298,12 @@
     <h3 class="section-title" id="runFormTitle">New Entry</h3>
 
     <div class="grid-2" style="margin-bottom:10px;">
-      <div class="input-group" style="margin-bottom:0;"><label>Distance (mi)</label><input id="runDist" type="number" step="0.01" placeholder="3.1" inputmode="decimal" /></div>
-      <div class="input-group" style="margin-bottom:0;"><label>Duration (min)</label><input id="runDur" type="number" step="1" placeholder="30" inputmode="decimal" /></div>
+      <div class="input-group" style="margin-bottom:0;"><label>Distance (mi)</label><input id="runDist" type="number" autocomplete="off" step="0.01" placeholder="3.1" inputmode="decimal" /></div>
+      <div class="input-group" style="margin-bottom:0;"><label>Duration (min)</label><input id="runDur" type="number" autocomplete="off" step="1" placeholder="30" inputmode="decimal" /></div>
     </div>
     <div class="grid-2" style="margin-bottom:10px;">
-      <div class="input-group" style="margin-bottom:0;"><label>Avg Pace (min/mi)</label><input id="runPace" type="number" step="0.01" placeholder="9.40" inputmode="decimal" /></div>
-      <div class="input-group" style="margin-bottom:0;"><label>Elevation Gain (ft)</label><input id="runElev" type="number" step="1" placeholder="Optional" inputmode="decimal" /></div>
+      <div class="input-group" style="margin-bottom:0;"><label>Avg Pace (min/mi)</label><input id="runPace" type="number" autocomplete="off" step="0.01" placeholder="9.40" inputmode="decimal" /></div>
+      <div class="input-group" style="margin-bottom:0;"><label>Elevation Gain (ft)</label><input id="runElev" type="number" autocomplete="off" step="1" placeholder="Optional" inputmode="decimal" /></div>
     </div>
     <div class="input-group">
       <label>Intensity</label>
@@ -311,7 +314,7 @@
         <button class="pill" onclick="app.pickPill('runIntPills',this)">Race Pace</button>
       </div>
     </div>
-    <div class="input-group"><label>Notes</label><input id="runNotes" type="text" placeholder="Optional" /></div>
+    <div class="input-group"><label>Notes</label><input id="runNotes" type="text" autocomplete="off" placeholder="Optional" /></div>
     <div class="button-row" id="runBtns"><button onclick="app.saveRun()">Save Entry</button></div>
 
     <div style="margin-top:16px;margin-bottom:13px;text-align:center;">
@@ -343,11 +346,11 @@
         <button class="bw-pill"     onclick="app.setAbsType('weighted',this)">Weighted</button>
       </div>
     </div>
-    <div id="absWtRow" class="input-group" style="display:none;"><label>Weight (lbs)</label><input id="absWt" type="number" placeholder="25" inputmode="decimal" /></div>
+    <div id="absWtRow" class="input-group" style="display:none;"><label>Weight (lbs)</label><input id="absWt" type="number" autocomplete="off" placeholder="25" inputmode="decimal" /></div>
     <div class="grid-3" style="margin-bottom:10px;">
-      <div class="input-group" style="margin-bottom:0;"><label>Sets</label><input id="absSets" type="number" placeholder="3" inputmode="decimal" /></div>
-      <div class="input-group" style="margin-bottom:0;"><label>Reps</label><input id="absReps" type="number" placeholder="20" inputmode="decimal" /></div>
-      <div class="input-group" style="margin-bottom:0;"><label>Rest (sec)</label><input id="absRest" type="number" placeholder="60" inputmode="decimal" /></div>
+      <div class="input-group" style="margin-bottom:0;"><label>Sets</label><input id="absSets" type="number" autocomplete="off" placeholder="3" inputmode="decimal" /></div>
+      <div class="input-group" style="margin-bottom:0;"><label>Reps</label><input id="absReps" type="number" autocomplete="off" placeholder="20" inputmode="decimal" /></div>
+      <div class="input-group" style="margin-bottom:0;"><label>Rest (sec)</label><input id="absRest" type="number" autocomplete="off" placeholder="60" inputmode="decimal" /></div>
     </div>
     <div class="input-group">
       <label>Difficulty</label>
@@ -358,7 +361,7 @@
         <button class="pill" onclick="app.pickPill('absDiffPills',this)">Failure</button>
       </div>
     </div>
-    <div class="input-group"><label>Notes</label><input id="absNotes" type="text" placeholder="Optional" /></div>
+    <div class="input-group"><label>Notes</label><input id="absNotes" type="text" autocomplete="off" placeholder="Optional" /></div>
     <div class="button-row" id="absBtns"><button onclick="app.saveAbs()">Save Entry</button></div>
     <div class="divider"></div>
     <h3 class="section-title">History</h3>
@@ -548,7 +551,7 @@ const app = {
     if(t==='lift'){
       this.editingIdx=null;
       document.getElementById('exerciseTitle').textContent=name;
-      document.getElementById('setContainer').innerHTML='';
+      const sc=document.getElementById('setContainer'); sc.innerHTML='';
       document.getElementById('chartContainer').classList.remove('open');
       document.getElementById('entryFormTitle').textContent='New Entry';
       document.getElementById('formButtons').innerHTML='<button onclick="app.saveSet()">Save Entry</button>';
@@ -584,9 +587,9 @@ const app = {
   ═══════════════════════════════════ */
   addSetRow(){
     const r=document.createElement('div'); r.className='set-row';
-    r.innerHTML=`<input type="number" class="sl" inputmode="decimal" placeholder="e.g. 3"/>
-                 <input type="number" class="rl" inputmode="decimal" placeholder="e.g. 10"/>
-                 <input type="number" class="wl" inputmode="decimal" placeholder="e.g. 135"/>`;
+    r.innerHTML=`<input type="number" class="sl" inputmode="decimal" placeholder="e.g. 3" autocomplete="off"/>
+                 <input type="number" class="rl" inputmode="decimal" placeholder="e.g. 10" autocomplete="off"/>
+                 <input type="number" class="wl" inputmode="decimal" placeholder="e.g. 135" autocomplete="off"/>`;
     document.getElementById('setContainer').appendChild(r);
   },
 
@@ -678,7 +681,7 @@ const app = {
      RUNNING
   ═══════════════════════════════════ */
   _clrRun(){
-    ['runDist','runDur','runPace','runElev','runNotes'].forEach(id=>document.getElementById(id).value='');
+    ['runDist','runDur','runPace','runElev','runNotes'].forEach(id=>{ const el=document.getElementById(id); el.value=''; el.defaultValue=''; });
     document.querySelectorAll('#runIntPills .pill').forEach(p=>p.classList.remove('sel'));
   },
 
@@ -754,7 +757,7 @@ const app = {
   },
 
   _clrAbs(){
-    ['absSets','absReps','absRest','absWt','absNotes'].forEach(id=>document.getElementById(id).value='');
+    ['absSets','absReps','absRest','absWt','absNotes'].forEach(id=>{ const el=document.getElementById(id); el.value=''; el.defaultValue=''; });
     document.querySelectorAll('#absDiffPills .pill').forEach(p=>p.classList.remove('sel'));
     this.absType='bodyweight';
     document.querySelectorAll('#absTypePills .bw-pill').forEach((p,i)=>p.classList.toggle('sel',i===0));
@@ -951,50 +954,149 @@ const app = {
 
   /* ═══════════════════════════════════
      DRAG & DROP
+     Long-press (300ms) on handle activates drag.
+     Before activation, touch scrolls normally.
   ═══════════════════════════════════ */
   _drag(handle,row,index){
-    const onStart=(cx,cy)=>{
-      const d=this.drag; d.sourceIndex=index; d.active=true;
-      const r=row.getBoundingClientRect(); d.offsetX=cx-r.left; d.offsetY=cy-r.top;
-      const g=row.cloneNode(true); g.className='drag-ghost'; g.style.cssText=`width:${r.width}px;left:${r.left}px;top:${r.top}px;`;
-      document.body.appendChild(g); d.ghost=g; row.classList.add('dragging'); document.body.style.userSelect='none';
+    let pressTimer=null, startX=0, startY=0;
+
+    const activate=(cx,cy)=>{
+      // Fired after long-press threshold — start the drag ghost
+      const d=this.drag;
+      d.sourceIndex=index; d.active=true;
+      const r=row.getBoundingClientRect();
+      d.offsetX=cx-r.left; d.offsetY=cy-r.top;
+      const g=row.cloneNode(true);
+      g.className='drag-ghost';
+      g.style.cssText=`width:${r.width}px;left:${r.left}px;top:${r.top}px;`;
+      document.body.appendChild(g);
+      d.ghost=g;
+      row.classList.add('dragging');
+      document.body.style.overflow='hidden'; // lock scroll while dragging
     };
+
     const onMove=(cx,cy)=>{
-      const d=this.drag; if(!d.active) return;
-      d.ghost.style.left=(cx-d.offsetX)+'px'; d.ghost.style.top=(cy-d.offsetY)+'px';
-      const c=document.getElementById('workoutList'), inds=[...c.querySelectorAll('.drop-indicator')];
+      const d=this.drag;
+      if(!d.active) return;
+      d.ghost.style.left=(cx-d.offsetX)+'px';
+      d.ghost.style.top=(cy-d.offsetY)+'px';
+
+      const container=document.getElementById('workoutList');
+      const rows=[...container.querySelectorAll('.exercise-row')];
+      const inds=[...container.querySelectorAll('.drop-indicator')];
+
+      // Hide all indicators
       inds.forEach(i=>i.classList.remove('visible'));
-      let best=null,bd=Infinity;
-      inds.forEach(ind=>{ const r=ind.getBoundingClientRect(), dist=Math.abs(cy-(r.top+r.height/2)); if(dist<bd){bd=dist;best=ind;} });
-      if(best){ best.classList.add('visible'); d.currentTarget=parseInt(best.dataset.index); }
+
+      // Find target slot by comparing cy against each row's midpoint.
+      // We use rows (always visible, always have real getBoundingClientRect)
+      // NOT the drop-indicator elements (which are hidden and return y=0).
+      let targetSlot = 0; // default: before first item
+      for(let i=0;i<rows.length;i++){
+        const r=rows[i].getBoundingClientRect();
+        const mid=r.top + r.height/2;
+        if(cy > mid) targetSlot = i+1; // cursor is below midpoint → slot after this row
+      }
+
+      // Show the indicator at that slot
+      const targetInd = inds.find(ind=>parseInt(ind.dataset.index)===targetSlot);
+      if(targetInd) targetInd.classList.add('visible');
+      d.currentTarget = targetSlot;
     };
+
     const onEnd=()=>{
-      const d=this.drag; if(!d.active) return; d.active=false;
+      clearTimeout(pressTimer); pressTimer=null;
+      const d=this.drag;
+      document.body.style.overflow='';
+      if(!d.active){ d.sourceIndex=null; d.currentTarget=null; return; }
+      d.active=false;
       if(d.ghost){ d.ghost.remove(); d.ghost=null; }
-      const c=document.getElementById('workoutList');
-      c.querySelectorAll('.drop-indicator').forEach(i=>i.classList.remove('visible'));
-      c.querySelectorAll('.exercise-row').forEach(r=>r.classList.remove('dragging'));
-      document.body.style.userSelect='';
-      if(d.currentTarget!==null&&d.sourceIndex!==null){
-        const t=d.currentTarget;
-        if(t!==d.sourceIndex&&t!==d.sourceIndex+1){
+      const container=document.getElementById('workoutList');
+      container.querySelectorAll('.drop-indicator').forEach(i=>i.classList.remove('visible'));
+      container.querySelectorAll('.exercise-row').forEach(r=>r.classList.remove('dragging'));
+
+      // Reorder: target indicator index tells us WHERE to insert.
+      // Drop indicators: index 0 = before item 0, index n = after last item.
+      // After splicing out the dragged item the array shrinks by 1,
+      // so if target > sourceIndex we subtract 1 to get the correct slot.
+      if(d.currentTarget!==null && d.sourceIndex!==null){
+        const src=d.sourceIndex, tgt=d.currentTarget;
+        // Drop indicators: 0=before first item, n=after last item
+        // Compute where item would land after removal
+        const insertAt = tgt > src ? tgt - 1 : tgt;
+        // Only skip if item ends up in exactly the same position
+        if(insertAt !== src){
           const data=this.getData(), items=data[this.currentSplit];
-          const [moved]=items.splice(d.sourceIndex,1); items.splice(t>d.sourceIndex?t-1:t,0,moved);
-          this.saveData(data); this.renderList();
+          const [moved]=items.splice(src,1);
+          items.splice(insertAt, 0, moved);
+          this.saveData(data);
+          this.renderList();
           if(this.editMode) document.getElementById('workoutList').classList.add('edit-mode');
         }
       }
       d.sourceIndex=null; d.currentTarget=null;
     };
-    handle.addEventListener('touchstart',e=>{const t=e.touches[0];onStart(t.clientX,t.clientY);},{passive:true});
-    handle.addEventListener('touchmove', e=>{e.preventDefault();const t=e.touches[0];onMove(t.clientX,t.clientY);},{passive:false});
-    handle.addEventListener('touchend',  ()=>onEnd());
-    handle.addEventListener('touchcancel',()=>onEnd());
-    handle.addEventListener('mousedown',e=>{
-      e.preventDefault(); onStart(e.clientX,e.clientY);
+
+    // ── Touch ──
+    // Strategy: touchstart on handle starts a 300ms long-press timer.
+    // During that window the finger can scroll freely (passive listener,
+    // no preventDefault). If the finger moves more than 8px we cancel
+    // the timer entirely. Only after 300ms of holding still do we activate
+    // the drag, attach a document-level non-passive touchmove to block
+    // scroll, and track the drag. This means normal scrolling is NEVER
+    // blocked unless a deliberate hold-drag is in progress.
+    let liveX=0, liveY=0;
+
+    const docTouchMove = e=>{
+      if(!this.drag.active) return;
+      e.preventDefault();
+      const t=e.touches[0];
+      liveX=t.clientX; liveY=t.clientY;
+      onMove(t.clientX, t.clientY);
+    };
+
+    const docTouchEnd = ()=>{
+      document.removeEventListener('touchmove', docTouchMove);
+      document.removeEventListener('touchend',  docTouchEnd);
+      document.removeEventListener('touchcancel', docTouchEnd);
+      onEnd();
+    };
+
+    handle.addEventListener('touchstart', e=>{
+      const t=e.touches[0];
+      startX=liveX=t.clientX; startY=liveY=t.clientY;
+      pressTimer=setTimeout(()=>{
+        // Long-press fired — activate drag and take over touch handling
+        activate(liveX, liveY);
+        document.addEventListener('touchmove',   docTouchMove,  {passive:false});
+        document.addEventListener('touchend',    docTouchEnd,   {passive:true});
+        document.addEventListener('touchcancel', docTouchEnd,   {passive:true});
+      }, 300);
+    }, {passive:true});
+
+    // Lightweight passive move just to track position & cancel if scrolling
+    handle.addEventListener('touchmove', e=>{
+      const t=e.touches[0];
+      liveX=t.clientX; liveY=t.clientY;
+      // Cancel long-press if finger moves significantly (user is scrolling)
+      if(!this.drag.active){
+        const dx=t.clientX-startX, dy=t.clientY-startY;
+        if(Math.sqrt(dx*dx+dy*dy)>8){ clearTimeout(pressTimer); pressTimer=null; }
+      }
+    }, {passive:true});
+
+    handle.addEventListener('touchend',   ()=>{ clearTimeout(pressTimer); pressTimer=null; if(!this.drag.active) onEnd(); });
+    handle.addEventListener('touchcancel',()=>{ clearTimeout(pressTimer); pressTimer=null; if(!this.drag.active) onEnd(); });
+
+    // ── Mouse ──
+    handle.addEventListener('mousedown', e=>{
+      e.preventDefault();
+      startX=e.clientX; startY=e.clientY;
+      activate(e.clientX,e.clientY);
       const mm=ev=>onMove(ev.clientX,ev.clientY);
-      const mu=()=>{onEnd();window.removeEventListener('mousemove',mm);window.removeEventListener('mouseup',mu);};
-      window.addEventListener('mousemove',mm); window.addEventListener('mouseup',mu);
+      const mu=()=>{ onEnd(); window.removeEventListener('mousemove',mm); window.removeEventListener('mouseup',mu); };
+      window.addEventListener('mousemove',mm);
+      window.addEventListener('mouseup',mu);
     });
   },
 };
